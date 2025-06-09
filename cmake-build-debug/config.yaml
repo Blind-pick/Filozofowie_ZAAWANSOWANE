@@ -1,0 +1,116 @@
+philosophers:
+  - id: 0
+    name: O
+    favoriteDish: spaghetti
+  - id: 1
+    name: K
+    favoriteDish: rosol
+  - id: 2
+    name: B
+    favoriteDish: lasagna
+  - id: 3
+    name: L
+    favoriteDish: pierogi
+  - id: 4
+    name: M
+    favoriteDish: schabowy
+  - id: 5
+    name: E
+    favoriteDish: bigos
+  - id: 6
+    name: A
+    favoriteDish: spaghetti
+  - id: 7
+    name: D
+    favoriteDish: rosol
+  - id: 8
+    name: C
+    favoriteDish: lasagna
+  - id: 9
+    name: Z
+    favoriteDish: pierogi
+  - id: 10
+    name: N
+    favoriteDish: schabowy
+  - id: 11
+    name: J
+    favoriteDish: bigos
+  - id: 12
+    name: T
+    favoriteDish: spaghetti
+  - id: 13
+    name: R
+    favoriteDish: rosol
+  - id: 14
+    name: S
+    favoriteDish: lasagna
+
+waiters:
+  count: 5
+
+cooks:
+  - id: 0
+    specialtyDish: spaghetti
+  - id: 1
+    specialtyDish: rosol
+  - id: 2
+    specialtyDish: pierogi
+  - id: 3
+    specialtyDish: bigos
+  - id: 4
+    specialtyDish: schabowy
+  - id: 5
+    specialtyDish: lasagna
+
+
+pantry:
+  ingredients:
+    makaron: 1
+    mieso: 1
+    warzywa: 1
+    ser: 1
+    kapusta: 1
+    ziemniaki: 1
+    panierka: 1
+
+  cutlery:
+    widelec: 9
+    lyzka: 9
+    noz: 9
+
+dishes:
+  spaghetti:
+    ingredient: makaron
+    cutlery: widelec
+    cookTimeMs: 3000
+    price: 25.50
+
+  rosol:
+    ingredient: warzywa
+    cutlery: lyzka
+    cookTimeMs: 4000
+    price: 18.00
+
+  lasagna:
+    ingredient: ser
+    cutlery: widelec
+    cookTimeMs: 3500
+    price: 22.75
+
+  pierogi:
+    ingredient: ziemniaki
+    cutlery: widelec
+    cookTimeMs: 4500
+    price: 20.00
+
+  schabowy:
+    ingredient: panierka
+    cutlery: noz
+    cookTimeMs: 5000
+    price: 27.00
+
+  bigos:
+    ingredient: kapusta
+    cutlery: lyzka
+    cookTimeMs: 5500
+    price: 23.50
