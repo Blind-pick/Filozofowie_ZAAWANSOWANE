@@ -42,10 +42,10 @@ void Waiter::lifeCycle() {
     while (running) {
         bool wasBusy = false;
 
-        // Obsługa filozofów czekających na kelnera
+        // 1. Priorytet: obsługa filozofów czekających na kelnera (zamówienia)
         {
             std::lock_guard<std::mutex> lock(*philosopherMapMutex);
-            for (auto &[id, philosopher]: philosopherMap) {
+            for (auto &[id, philosopher] : philosopherMap) {
                 if (philosopher && philosopher->isWaitingToOrder()) {
                     std::string dish = philosopher->getCurrentOrder();
 
@@ -53,7 +53,15 @@ void Waiter::lifeCycle() {
                     servingPhilosopherId = id;
 
                     std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 400 + 200));
+
                     deliverOrderToKitchen(id, dish);
+
+                    auto menu = kitchen->getMenu();
+                    if (menu.count(dish)) {
+                        double cookTime = menu.at(dish).cookTimeMs / 1000.0;
+                        philosopher->markOrderStart(cookTime);  // Kelner inicjuje gotowanie
+                    }
+
                     philosopher->markOrderTaken();
 
                     std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 400 + 200));
@@ -62,19 +70,21 @@ void Waiter::lifeCycle() {
                     state = State::Free;
 
                     wasBusy = true;
-                    break;
+                    break;  // Obsłużono jednego filozofa, wracamy na początek pętli
                 }
             }
         }
 
-        // Sprawdź gotowe dania
-        if (kitchen && kitchen->hasReadyDish()) {
+        // 2. Jeśli nie obsłużono zamówienia (brak filozofów czekających), to sprawdź gotowe dania
+        if (!wasBusy && kitchen && kitchen->hasReadyDish()) {
             auto readyOrder = kitchen->getReadyDish();
             state = State::Busy;
             servingPhilosopherId = readyOrder.first;
             wasBusy = true;
 
-            std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 400 + 200)); {
+            std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 400 + 200));
+
+            {
                 std::lock_guard<std::mutex> lock(*philosopherMapMutex);
                 if (philosopherMap.count(readyOrder.first)) {
                     std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 500 + 300));
@@ -86,11 +96,13 @@ void Waiter::lifeCycle() {
             state = State::Free;
         }
 
+        // 3. Jeśli nic do roboty, odsapnij chwilę
         if (!wasBusy) {
             std::this_thread::sleep_for(std::chrono::milliseconds(250));
         }
     }
 }
+
 
 Waiter::State Waiter::getState() const {
     return state;

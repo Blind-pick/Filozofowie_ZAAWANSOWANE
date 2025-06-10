@@ -1,4 +1,5 @@
 #pragma once
+#include <condition_variable>
 #include <string>
 #include <thread>
 #include <mutex>
@@ -56,7 +57,7 @@ public:
 
     int getId() const;
 
-    bool isWaitingToOrder() const;
+    bool isWaitingToOrder();
 
     std::string getCurrentOrder();
 
@@ -91,6 +92,13 @@ private:
     std::string name;
     std::string favoriteDish;
     std::string currentOrder;
+
+    std::chrono::steady_clock::time_point orderRequestTime;
+
+    double totalWaitTime = 0.0;
+    std::condition_variable waiterCondition;
+    std::mutex waiterMutex;
+    bool orderTaken = false;
 
     State currentState;
     std::thread thread;

@@ -7,7 +7,8 @@
 
 Philosopher::Philosopher(int id, const std::string &name, const std::string &favoriteDish,
                          std::shared_ptr<Kitchen> kitchen)
-    : id(id), name(name), favoriteDish(favoriteDish), kitchen(kitchen), currentState(State::Thinking), running(true) {
+    : id(id), name(name), favoriteDish(favoriteDish), kitchen(kitchen), currentState(State::Thinking),
+      running(true), wantsToOrder(false), foodReady(false), orderTaken(false) {
 }
 
 Philosopher::~Philosopher() {
@@ -16,11 +17,19 @@ Philosopher::~Philosopher() {
 }
 
 void Philosopher::start() {
+    running = true;
     thread = std::thread(&Philosopher::lifeCycle, this);
 }
 
 void Philosopher::stop() {
     running = false;
+
+    // Obudź filozofa jeśli czeka na kelnera, żeby nie wisiał na wait()
+    {
+        std::lock_guard<std::mutex> lock(waiterMutex);
+        orderTaken = true;
+    }
+    waiterCondition.notify_one();
 }
 
 void Philosopher::lifeCycle() {
@@ -28,7 +37,9 @@ void Philosopher::lifeCycle() {
         think();
         getHungry();
         orderFood();
+        if (!running) break;
         waitForFood();
+        if (!running) break;
         eat();
         pay();
     }
@@ -56,30 +67,41 @@ void Philosopher::orderFood() {
     if (dis(gen) < 0.6) {
         chosenDish = favoriteDish;
     } else {
-        std::vector<std::string> allDishes; {
-            auto menu = kitchen->getMenu();
-            for (const auto &pair: menu) {
-                if (pair.first != favoriteDish) {
-                    allDishes.push_back(pair.first);
-                }
+        std::vector<std::string> allDishes;
+        auto menu = kitchen->getMenu();
+        for (const auto &pair : menu) {
+            if (pair.first != favoriteDish) {
+                allDishes.push_back(pair.first);
             }
         }
-
         if (!allDishes.empty()) {
             std::uniform_int_distribution<> indexDist(0, allDishes.size() - 1);
             chosenDish = allDishes[indexDist(gen)];
         } else {
             chosenDish = favoriteDish;
         }
-    } {
+    }
+
+    {
         std::lock_guard<std::mutex> lock(stateMutex);
         currentOrder = chosenDish;
         wantsToOrder = true;
+    }
 
-        auto menu = kitchen->getMenu();
-        if (menu.count(currentOrder)) {
-            markOrderStart(menu.at(currentOrder).cookTimeMs / 1000.0);
-        }
+    // Czekaj na kelnera (orderTaken == true)
+    {
+        std::unique_lock<std::mutex> lock(waiterMutex);
+        orderTaken = false;
+        waiterCondition.wait(lock, [this] { return orderTaken || !running; });
+    }
+
+    if (!running) return;
+
+    wantsToOrder = false;
+
+    auto menu = kitchen->getMenu();
+    if (menu.count(currentOrder)) {
+        markOrderStart(menu.at(currentOrder).cookTimeMs / 1000.0);
     }
 }
 
@@ -95,11 +117,10 @@ void Philosopher::eat() {
     currentState = State::Eating;
     std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 3000 + 1000));
 
-    std::string cutleryType; {
-        auto menu = kitchen->getMenu();
-        if (menu.count(currentOrder)) {
-            cutleryType = menu.at(currentOrder).cutlery;
-        }
+    std::string cutleryType;
+    auto menu = kitchen->getMenu();
+    if (menu.count(currentOrder)) {
+        cutleryType = menu.at(currentOrder).cutlery;
     }
 
     if (!cutleryType.empty()) {
@@ -110,11 +131,10 @@ void Philosopher::eat() {
 void Philosopher::pay() {
     currentState = State::Paying;
 
-    double price = 0.0; {
-        auto menu = kitchen->getMenu();
-        if (menu.count(currentOrder)) {
-            price = menu.at(currentOrder).price;
-        }
+    double price = 0.0;
+    auto menu = kitchen->getMenu();
+    if (menu.count(currentOrder)) {
+        price = menu.at(currentOrder).price;
     }
 
     if (price > 0.0) {
@@ -141,7 +161,8 @@ int Philosopher::getId() const {
     return id;
 }
 
-bool Philosopher::isWaitingToOrder() const {
+bool Philosopher::isWaitingToOrder() {
+    std::lock_guard<std::mutex> lock(stateMutex);
     return wantsToOrder;
 }
 
@@ -151,7 +172,11 @@ std::string Philosopher::getCurrentOrder() {
 }
 
 void Philosopher::markOrderTaken() {
-    wantsToOrder = false;
+    {
+        std::lock_guard<std::mutex> lock(waiterMutex);
+        orderTaken = true;
+    }
+    waiterCondition.notify_one();
 }
 
 void Philosopher::markOrderStart(double cookTimeSeconds) {
