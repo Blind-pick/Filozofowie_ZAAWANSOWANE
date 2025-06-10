@@ -15,16 +15,21 @@ public:
     enum class State { Free, Busy };
 
     Waiter(int id);
+
     ~Waiter();
 
     void start();
+
     void stop();
 
-    void setKitchen(Kitchen* kitchen);
-    void setPhilosopherMap(std::unordered_map<int, Philosopher*>& map, std::mutex& mutex);
+    void setKitchen(Kitchen *kitchen);
+
+    void setPhilosopherMap(std::unordered_map<int, Philosopher *> &map, std::mutex &mutex);
 
     State getState() const;
+
     int getServingPhilosopherId() const;
+
     int getId() const { return id; }
 
     int id;
@@ -34,12 +39,13 @@ public:
 
     std::thread thread;
 
-    Kitchen* kitchen = nullptr;
-    std::unordered_map<int, Philosopher*> philosopherMap;
-    std::mutex* philosopherMapMutex = nullptr;
+    Kitchen *kitchen = nullptr;
+    std::unordered_map<int, Philosopher *> philosopherMap;
+    std::mutex *philosopherMapMutex = nullptr;
 
     void lifeCycle();
-    void deliverOrderToKitchen(int philosopherId, const std::string& dish);
+
+    void deliverOrderToKitchen(int philosopherId, const std::string &dish);
 };
 
 #endif // WAITER_H

@@ -5,8 +5,10 @@
 #include <cstdlib>
 #include <random>
 
-Philosopher::Philosopher(int id, const std::string& name, const std::string& favoriteDish, std::shared_ptr<Kitchen> kitchen)
-    : id(id), name(name), favoriteDish(favoriteDish), kitchen(kitchen), currentState(State::Thinking), running(true) {}
+Philosopher::Philosopher(int id, const std::string &name, const std::string &favoriteDish,
+                         std::shared_ptr<Kitchen> kitchen)
+    : id(id), name(name), favoriteDish(favoriteDish), kitchen(kitchen), currentState(State::Thinking), running(true) {
+}
 
 Philosopher::~Philosopher() {
     stop();
@@ -43,7 +45,7 @@ void Philosopher::getHungry() {
 }
 
 void Philosopher::orderFood() {
-    currentState = State::Waiting;
+    currentState = State::Ordering;
 
     static std::random_device rd;
     static std::mt19937 gen(rd());
@@ -51,13 +53,12 @@ void Philosopher::orderFood() {
 
     std::string chosenDish;
 
-    if (dis(gen) < 0.3) {
+    if (dis(gen) < 0.6) {
         chosenDish = favoriteDish;
     } else {
-        std::vector<std::string> allDishes;
-        {
+        std::vector<std::string> allDishes; {
             auto menu = kitchen->getMenu();
-            for (const auto& pair : menu) {
+            for (const auto &pair: menu) {
                 if (pair.first != favoriteDish) {
                     allDishes.push_back(pair.first);
                 }
@@ -70,9 +71,7 @@ void Philosopher::orderFood() {
         } else {
             chosenDish = favoriteDish;
         }
-    }
-
-    {
+    } {
         std::lock_guard<std::mutex> lock(stateMutex);
         currentOrder = chosenDish;
         wantsToOrder = true;
@@ -96,8 +95,7 @@ void Philosopher::eat() {
     currentState = State::Eating;
     std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 3000 + 1000));
 
-    std::string cutleryType;
-    {
+    std::string cutleryType; {
         auto menu = kitchen->getMenu();
         if (menu.count(currentOrder)) {
             cutleryType = menu.at(currentOrder).cutlery;
@@ -112,8 +110,7 @@ void Philosopher::eat() {
 void Philosopher::pay() {
     currentState = State::Paying;
 
-    double price = 0.0;
-    {
+    double price = 0.0; {
         auto menu = kitchen->getMenu();
         if (menu.count(currentOrder)) {
             price = menu.at(currentOrder).price;
@@ -156,8 +153,6 @@ std::string Philosopher::getCurrentOrder() {
 void Philosopher::markOrderTaken() {
     wantsToOrder = false;
 }
-
-// === Nowe metody ===
 
 void Philosopher::markOrderStart(double cookTimeSeconds) {
     orderStartTime = std::chrono::steady_clock::now();

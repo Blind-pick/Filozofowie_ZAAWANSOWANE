@@ -13,22 +13,29 @@ public:
         Busy
     };
 
-    Cook(int id, const std::string& specialtyDish, Kitchen* kitchen);
+    Cook(int id, const std::string &specialtyDish, Kitchen *kitchen);
 
     void start();
+
     void join();
+
+    void stop();
+
     State getState();
+
     int getId() const;
 
     int id;
+    std::atomic<bool> running;
     std::string specialtyDish;
-    Kitchen* kitchen;
+    Kitchen *kitchen;
 
     std::thread thread;
     std::atomic<State> state = State::Free;
 
     void lifeCycle();
-    void cookOrder(int philosopherId, const std::string& dishName);
+
+    void cookOrder(int philosopherId, const std::string &dishName);
 };
 
 #endif // COOK_H

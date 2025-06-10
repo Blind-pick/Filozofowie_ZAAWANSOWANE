@@ -2,13 +2,13 @@
 #include <yaml-cpp/yaml.h>
 #include <iostream>
 
-bool ConfigLoader::loadFromFile(const std::string& filename) {
+bool ConfigLoader::loadFromFile(const std::string &filename) {
     try {
         YAML::Node config = YAML::LoadFile(filename);
 
         // Filozofowie
         if (config["philosophers"]) {
-            for (const auto& phNode : config["philosophers"]) {
+            for (const auto &phNode: config["philosophers"]) {
                 PhilosopherConfig ph;
                 ph.id = phNode["id"].as<int>();
                 ph.name = phNode["name"].as<std::string>();
@@ -36,7 +36,7 @@ bool ConfigLoader::loadFromFile(const std::string& filename) {
 
         // Kucharze
         if (config["cooks"]) {
-            for (const auto& cookNode : config["cooks"]) {
+            for (const auto &cookNode: config["cooks"]) {
                 CookConfig cook;
                 cook.id = cookNode["id"].as<int>();
                 cook.specialtyDish = cookNode["specialtyDish"].as<std::string>();
@@ -50,7 +50,7 @@ bool ConfigLoader::loadFromFile(const std::string& filename) {
         // Spiżarnia
         if (config["pantry"]) {
             if (config["pantry"]["ingredients"]) {
-                for (const auto& ingr : config["pantry"]["ingredients"]) {
+                for (const auto &ingr: config["pantry"]["ingredients"]) {
                     std::string name = ingr.first.as<std::string>();
                     int amount = ingr.second.as<int>();
                     pantry.ingredients[name] = amount;
@@ -58,7 +58,7 @@ bool ConfigLoader::loadFromFile(const std::string& filename) {
             }
 
             if (config["pantry"]["cutlery"]) {
-                for (const auto& cut : config["pantry"]["cutlery"]) {
+                for (const auto &cut: config["pantry"]["cutlery"]) {
                     std::string type = cut.first.as<std::string>();
                     int amount = cut.second.as<int>();
                     pantry.cutlery[type] = amount;
@@ -71,9 +71,9 @@ bool ConfigLoader::loadFromFile(const std::string& filename) {
 
         // Dania
         if (config["dishes"]) {
-            for (const auto& dishNode : config["dishes"]) {
+            for (const auto &dishNode: config["dishes"]) {
                 std::string dishName = dishNode.first.as<std::string>();
-                const YAML::Node& details = dishNode.second;
+                const YAML::Node &details = dishNode.second;
 
                 DishConfig dish;
                 dish.ingredient = details["ingredient"].as<std::string>();
@@ -87,11 +87,10 @@ bool ConfigLoader::loadFromFile(const std::string& filename) {
             std::cerr << "Brak sekcji 'dishes' w pliku konfiguracyjnym\n";
             return false;
         }
-
-    } catch (const YAML::BadFile& e) {
+    } catch (const YAML::BadFile &e) {
         std::cerr << "Nie można otworzyć pliku: " << e.what() << std::endl;
         return false;
-    } catch (const YAML::Exception& e) {
+    } catch (const YAML::Exception &e) {
         std::cerr << "Błąd podczas parsowania YAML: " << e.what() << std::endl;
         return false;
     }

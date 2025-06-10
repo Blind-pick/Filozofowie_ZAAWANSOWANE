@@ -6,7 +6,8 @@
 #include <cstdlib>
 
 Waiter::Waiter(int id)
-    : id(id), servingPhilosopherId(-1), state(State::Free), running(false) {}
+    : id(id), servingPhilosopherId(-1), state(State::Free), running(false) {
+}
 
 Waiter::~Waiter() {
     stop();
@@ -22,16 +23,16 @@ void Waiter::stop() {
     running = false;
 }
 
-void Waiter::setKitchen(Kitchen* k) {
+void Waiter::setKitchen(Kitchen *k) {
     kitchen = k;
 }
 
-void Waiter::setPhilosopherMap(std::unordered_map<int, Philosopher*>& map, std::mutex& mutex) {
+void Waiter::setPhilosopherMap(std::unordered_map<int, Philosopher *> &map, std::mutex &mutex) {
     philosopherMap = map;
     philosopherMapMutex = &mutex;
 }
 
-void Waiter::deliverOrderToKitchen(int philosopherId, const std::string& dish) {
+void Waiter::deliverOrderToKitchen(int philosopherId, const std::string &dish) {
     if (kitchen) {
         kitchen->addOrder(philosopherId, dish);
     }
@@ -44,7 +45,7 @@ void Waiter::lifeCycle() {
         // Obsługa filozofów czekających na kelnera
         {
             std::lock_guard<std::mutex> lock(*philosopherMapMutex);
-            for (auto& [id, philosopher] : philosopherMap) {
+            for (auto &[id, philosopher]: philosopherMap) {
                 if (philosopher && philosopher->isWaitingToOrder()) {
                     std::string dish = philosopher->getCurrentOrder();
 
@@ -73,9 +74,7 @@ void Waiter::lifeCycle() {
             servingPhilosopherId = readyOrder.first;
             wasBusy = true;
 
-            std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 400 + 200));
-
-            {
+            std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 400 + 200)); {
                 std::lock_guard<std::mutex> lock(*philosopherMapMutex);
                 if (philosopherMap.count(readyOrder.first)) {
                     std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 500 + 300));

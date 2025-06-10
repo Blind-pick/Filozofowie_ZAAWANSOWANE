@@ -33,13 +33,17 @@ class ConfigLoader {
 public:
     ConfigLoader() = default;
 
-    bool loadFromFile(const std::string& filename);
+    bool loadFromFile(const std::string &filename);
 
     // Gettery do pobierania wczytanych danych
     std::vector<PhilosopherConfig> getPhilosophers() const;
+
     int getWaiterCount() const;
+
     std::vector<CookConfig> getCooks() const;
+
     PantryConfig getPantry() const;
+
     std::unordered_map<std::string, DishConfig> getDishes() const;
 
 private:

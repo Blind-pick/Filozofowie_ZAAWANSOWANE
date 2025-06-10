@@ -3,10 +3,12 @@
 #include <thread>
 #include <chrono>
 
-Cook::Cook(int id, const std::string& specialtyDish, Kitchen* kitchen)
-    : id(id), specialtyDish(specialtyDish), kitchen(kitchen), state(State::Free) {}
+Cook::Cook(int id, const std::string &specialtyDish, Kitchen *kitchen)
+    : id(id), specialtyDish(specialtyDish), kitchen(kitchen), state(State::Free) {
+}
 
 void Cook::start() {
+    running = true;
     thread = std::thread(&Cook::lifeCycle, this);
 }
 
@@ -16,12 +18,18 @@ void Cook::join() {
     }
 }
 
+void Cook::stop() {
+    running = false;
+    join();
+}
+
 void Cook::lifeCycle() {
-    while (true) {
+    while (running) {
         std::optional<Kitchen::Order> orderToProcess;
 
         // Próbujemy znaleźć możliwe do wykonania zamówienie
-        for (int i = 0; i < 10; ++i) {  // sprawdzamy max 10 zamówień z kolejki
+        for (int i = 0; i < 10; ++i) {
+            // sprawdzamy max 10 zamówień z kolejki
             auto maybeOrder = kitchen->getNextOrder();
             if (!maybeOrder) {
                 break; // kolejka pusta
@@ -47,7 +55,7 @@ void Cook::lifeCycle() {
 }
 
 
-void Cook::cookOrder(int philosopherId, const std::string& dishName) {
+void Cook::cookOrder(int philosopherId, const std::string &dishName) {
     if (!kitchen->reserveResourcesFor(dishName)) {
         std::cerr << "[COOK " << id << "] Failed to reserve resources for " << dishName << ", retrying later\n";
 
