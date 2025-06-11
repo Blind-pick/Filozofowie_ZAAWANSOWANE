@@ -111,7 +111,7 @@ int main() {
         Display display(philosopherPtrs, waiterPtrs, cookPtrs, kitchen);
         display.start();
 
-        std::this_thread::sleep_for(std::chrono::seconds(60));
+        std::this_thread::sleep_for(std::chrono::seconds(600));
 
         display.stop();
         for (auto &philosopher: philosophers)
