@@ -1,0 +1,100 @@
+Symulacja #1
+-------------------------------------
+Filozof Ada - czas oczekiwania: 259 s
+Filozof Bartek - czas oczekiwania: 249 s
+Filozof Cezary - czas oczekiwania: 264 s
+Filozof Daria - czas oczekiwania: 232 s
+Filozof Ewa - czas oczekiwania: 239 s
+Filozof Filip - czas oczekiwania: 236 s
+Filozof Grzegorz - czas oczekiwania: 246 s
+Filozof Hania - czas oczekiwania: 248 s
+Filozof Iwona - czas oczekiwania: 226 s
+Filozof Jan - czas oczekiwania: 200 s
+Filozof Kinga - czas oczekiwania: 205 s
+Filozof Lena - czas oczekiwania: 191 s
+Filozof Marek - czas oczekiwania: 198 s
+Filozof Natalia - czas oczekiwania: 253 s
+Filozof Oskar - czas oczekiwania: 259 s
+Średni czas oczekiwania: 233.667 s
+Przychód restauracji: 9450.75 zł
+
+Symulacja #2
+-------------------------------------
+Filozof Ada - czas oczekiwania: 268 s
+Filozof Bartek - czas oczekiwania: 251 s
+Filozof Cezary - czas oczekiwania: 239 s
+Filozof Daria - czas oczekiwania: 234 s
+Filozof Ewa - czas oczekiwania: 241 s
+Filozof Filip - czas oczekiwania: 241 s
+Filozof Grzegorz - czas oczekiwania: 228 s
+Filozof Hania - czas oczekiwania: 220 s
+Filozof Iwona - czas oczekiwania: 240 s
+Filozof Jan - czas oczekiwania: 256 s
+Filozof Kinga - czas oczekiwania: 220 s
+Filozof Lena - czas oczekiwania: 238 s
+Filozof Marek - czas oczekiwania: 226 s
+Filozof Natalia - czas oczekiwania: 259 s
+Filozof Oskar - czas oczekiwania: 264 s
+Średni czas oczekiwania: 241.667 s
+Przychód restauracji: 9552.00 zł
+
+Symulacja #3
+-------------------------------------
+Filozof Ada - czas oczekiwania: 274 s
+Filozof Bartek - czas oczekiwania: 240 s
+Filozof Cezary - czas oczekiwania: 241 s
+Filozof Daria - czas oczekiwania: 231 s
+Filozof Ewa - czas oczekiwania: 232 s
+Filozof Filip - czas oczekiwania: 228 s
+Filozof Grzegorz - czas oczekiwania: 224 s
+Filozof Hania - czas oczekiwania: 226 s
+Filozof Iwona - czas oczekiwania: 226 s
+Filozof Jan - czas oczekiwania: 226 s
+Filozof Kinga - czas oczekiwania: 207 s
+Filozof Lena - czas oczekiwania: 187 s
+Filozof Marek - czas oczekiwania: 204 s
+Filozof Natalia - czas oczekiwania: 263 s
+Filozof Oskar - czas oczekiwania: 280 s
+Średni czas oczekiwania: 232.6 s
+Przychód restauracji: 9622.50 zł
+
+Symulacja #4
+-------------------------------------
+Filozof Ada - czas oczekiwania: 263 s
+Filozof Bartek - czas oczekiwania: 248 s
+Filozof Cezary - czas oczekiwania: 261 s
+Filozof Daria - czas oczekiwania: 239 s
+Filozof Ewa - czas oczekiwania: 238 s
+Filozof Filip - czas oczekiwania: 228 s
+Filozof Grzegorz - czas oczekiwania: 258 s
+Filozof Hania - czas oczekiwania: 220 s
+Filozof Iwona - czas oczekiwania: 234 s
+Filozof Jan - czas oczekiwania: 243 s
+Filozof Kinga - czas oczekiwania: 208 s
+Filozof Lena - czas oczekiwania: 235 s
+Filozof Marek - czas oczekiwania: 238 s
+Filozof Natalia - czas oczekiwania: 262 s
+Filozof Oskar - czas oczekiwania: 267 s
+Średni czas oczekiwania: 242.8 s
+Przychód restauracji: 9363.25 zł
+
+Symulacja #5
+-------------------------------------
+Filozof Ada - czas oczekiwania: 263 s
+Filozof Bartek - czas oczekiwania: 251 s
+Filozof Cezary - czas oczekiwania: 252 s
+Filozof Daria - czas oczekiwania: 262 s
+Filozof Ewa - czas oczekiwania: 216 s
+Filozof Filip - czas oczekiwania: 234 s
+Filozof Grzegorz - czas oczekiwania: 232 s
+Filozof Hania - czas oczekiwania: 217 s
+Filozof Iwona - czas oczekiwania: 249 s
+Filozof Jan - czas oczekiwania: 215 s
+Filozof Kinga - czas oczekiwania: 243 s
+Filozof Lena - czas oczekiwania: 244 s
+Filozof Marek - czas oczekiwania: 241 s
+Filozof Natalia - czas oczekiwania: 269 s
+Filozof Oskar - czas oczekiwania: 271 s
+Średni czas oczekiwania: 243.933 s
+Przychód restauracji: 9524.50 zł
+

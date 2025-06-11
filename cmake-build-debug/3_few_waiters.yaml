@@ -1,0 +1,105 @@
+cooks:
+- id: 0
+  specialtyDish: spaghetti
+- id: 1
+  specialtyDish: rosol
+- id: 2
+  specialtyDish: lasagna
+- id: 3
+  specialtyDish: pierogi
+- id: 4
+  specialtyDish: schabowy
+- id: 5
+  specialtyDish: bigos
+dishes:
+  bigos:
+    cookTimeMs: 5500
+    cutlery: lyzka
+    ingredient: kapusta
+    price: 23.5
+  lasagna:
+    cookTimeMs: 3500
+    cutlery: widelec
+    ingredient: ser
+    price: 22.75
+  pierogi:
+    cookTimeMs: 4500
+    cutlery: widelec
+    ingredient: ziemniaki
+    price: 20.0
+  rosol:
+    cookTimeMs: 4000
+    cutlery: lyzka
+    ingredient: warzywa
+    price: 18.0
+  schabowy:
+    cookTimeMs: 5000
+    cutlery: noz
+    ingredient: panierka
+    price: 27.0
+  spaghetti:
+    cookTimeMs: 3000
+    cutlery: widelec
+    ingredient: makaron
+    price: 25.5
+pantry:
+  cutlery:
+    lyzka: 15
+    noz: 15
+    widelec: 15
+  ingredients:
+    kapusta: 10
+    makaron: 10
+    mieso: 10
+    panierka: 10
+    ser: 10
+    warzywa: 10
+    ziemniaki: 10
+philosophers:
+- favoriteDish: spaghetti
+  id: 0
+  name: Ada
+- favoriteDish: rosol
+  id: 1
+  name: Bartek
+- favoriteDish: lasagna
+  id: 2
+  name: Cezary
+- favoriteDish: pierogi
+  id: 3
+  name: Daria
+- favoriteDish: schabowy
+  id: 4
+  name: Ewa
+- favoriteDish: bigos
+  id: 5
+  name: Filip
+- favoriteDish: spaghetti
+  id: 6
+  name: Grzegorz
+- favoriteDish: rosol
+  id: 7
+  name: Hania
+- favoriteDish: lasagna
+  id: 8
+  name: Iwona
+- favoriteDish: pierogi
+  id: 9
+  name: Jan
+- favoriteDish: schabowy
+  id: 10
+  name: Kinga
+- favoriteDish: bigos
+  id: 11
+  name: Lena
+- favoriteDish: spaghetti
+  id: 12
+  name: Marek
+- favoriteDish: rosol
+  id: 13
+  name: Natalia
+- favoriteDish: lasagna
+  id: 14
+  name: Oskar
+waiters:
+  count: 2
